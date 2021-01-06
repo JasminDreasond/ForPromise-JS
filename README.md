@@ -12,7 +12,9 @@
 </div>
 
 # ForPromise-JS
-Execute all promises inside a "for" script.
+Execute all promises inside a "for" script. This module will help you to execute all the Promise methods instantly inside a single promise.
+
+Instead of waiting for "For" to execute several promises at a time, with this module they will all be executed instantly at one Promise.
 
 ## Simple Example
 
