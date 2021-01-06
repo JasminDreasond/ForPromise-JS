@@ -1,0 +1,26 @@
+{
+  "name": "for-promise",
+  "version": "1.0.0",
+  "description": "Execute all promises inside a \"for\" script.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasminDreasond/ForPromise-JS.git"
+  },
+  "keywords": [
+    "promise",
+    "for",
+    "array",
+    "object",
+    "for-promise"
+  ],
+  "author": "Yasmin Seidel (Jasmin Dreasond)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JasminDreasond/ForPromise-JS/issues"
+  },
+  "homepage": "https://github.com/JasminDreasond/ForPromise-JS#readme"
+}
