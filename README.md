@@ -67,7 +67,7 @@ const data = [1,2,3,4,5,6,7,8,9,10];
 const data2 = [11,12,13,14,15,16,17,18,19,20];
 
 // Start For Script
-await forPromise(data, function (index, fn, fn_error) {
+await forPromise(data, function (index, fn, fn_error, extra) {
 
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
