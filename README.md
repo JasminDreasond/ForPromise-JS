@@ -16,6 +16,7 @@ Execute all promises inside a "for" script.
 
 ## Simple Example
 
+### Execute a For Script with Promise
 ```js
 
 // For Promise
@@ -26,9 +27,8 @@ const fs = require('fs');
 
 // The Data
 const data = [1,2,3,4,5,6,7,8,9,10];
-const data2 = [11,12,13,14,15,16,17,18,19,20];
 
-// Execute a For Script with Promise
+// Start For Script
 await forPromise(data, function (index, fn, fn_error) {
 
     // Show Index
@@ -50,8 +50,21 @@ await forPromise(data, function (index, fn, fn_error) {
     });
 
 });
+```
 
-// Execute a For Script with extra For Scripts
+### Execute a For Script with extra For Scripts
+```js
+// For Promise
+const forPromise = require('for-promise');
+
+// Module Example
+const fs = require('fs');
+
+// The Data
+const data = [1,2,3,4,5,6,7,8,9,10];
+const data2 = [11,12,13,14,15,16,17,18,19,20];
+
+// Start For Script
 await forPromise(data, function (index, fn, fn_error) {
 
     // Show Index
