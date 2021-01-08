@@ -163,7 +163,7 @@ module.exports = function (obj, callback) {
                 const index = extra.list.length - 1;
 
                 // Get Total
-                extra.list[index] = countObj(new_extra);
+                extra.list[index].total = countObj(new_extra);
 
                 // Callback
                 return {
