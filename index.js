@@ -101,10 +101,20 @@ module.exports = function (obj, callback) {
         };
 
         // Run For
-        const runFor = function (callback, isExtra = false, index = null) {
+        const runFor = function (callback, isExtra = false, index = null, new_extra = null) {
+
+            // Prepare the Item
+            let the_item = null;
+
+            // Normal
+            if(!isExtra) {
+                the_item = obj;
+            } else {
+                the_item = new_extra;
+            }
 
             // Start the For
-            for (const item in obj) {
+            for (const item in the_item) {
 
                 // No Error
                 if (!items.error) {
@@ -172,7 +182,7 @@ module.exports = function (obj, callback) {
                     run: function (callback) {
 
                         // Run For
-                        if (!items.error) { runFor(callback, true, index); }
+                        if (!items.error) { runFor(callback, true, index, new_extra); }
 
                         // Complete
                         return;
