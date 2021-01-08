@@ -128,14 +128,17 @@ module.exports = function (obj, callback) {
                     catch (err) {
                         items.error = true;
                         reject(err);
-                        break;
+                        return false;
                     }
+
+                    // Normal Return
+                    return true;
 
                 }
 
                 // Error
                 else {
-                    break;
+                    return false;
                 }
 
             };
@@ -143,14 +146,14 @@ module.exports = function (obj, callback) {
             // Start the For
             if (typeof the_item !== "number") {
                 for (const item in the_item) {
-                    runFor_script(item);
+                    if (!runFor_script(item)) { break; }
                 }
             }
 
             // Number Type
             else {
                 for (let item = 0; item < the_item; item++) {
-                    runFor_script(item);
+                    if (!runFor_script(item)) { break; }
                 }
             }
 
