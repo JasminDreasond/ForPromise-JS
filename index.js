@@ -24,17 +24,27 @@ module.exports = function (obj, callback) {
         // Prepare Result
         const result = function (isExtra, extraIndex, item) {
 
+            // Prepare Edit
+            let item_to_edit = null;
+
+            // Not Extra
+            if(!isExtra) {
+                item_to_edit = items;
+            } else {
+                item_to_edit = extra.list[extraIndex]
+            }
+
             // No Error
-            if (!items.error) {
+            if (!item_to_edit.error) {
 
                 // Count
-                items.count++;
+                item_to_edit.count++;
 
                 // Add Item
-                items.items.push(item);
+                item_to_edit.items.push(item);
 
                 // Complete
-                if (items.count >= items.total) {
+                if (item_to_edit.count >= item_to_edit.total) {
 
                     // Normal Result
                     if (!isExtra) {
