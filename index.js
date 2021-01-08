@@ -28,7 +28,7 @@ module.exports = function (obj, callback) {
             let item_to_edit = null;
 
             // Not Extra
-            if(!isExtra) {
+            if (!isExtra) {
                 item_to_edit = items;
             } else {
                 item_to_edit = extra.list[extraIndex]
@@ -107,14 +107,14 @@ module.exports = function (obj, callback) {
             let the_item = null;
 
             // Normal
-            if(!isExtra) {
+            if (!isExtra) {
                 the_item = obj;
             } else {
                 the_item = new_extra;
             }
 
-            // Start the For
-            for (const item in the_item) {
+            // Run Script
+            const runFor_script = function (item) {
 
                 // No Error
                 if (!items.error) {
@@ -138,6 +138,20 @@ module.exports = function (obj, callback) {
                     break;
                 }
 
+            };
+
+            // Start the For
+            if (typeof the_item !== "number") {
+                for (const item in the_item) {
+                    runFor_script(item);
+                }
+            }
+
+            // Number Type
+            else {
+                for (let item = 0; item < the_item; item++) {
+                    runFor_script(item);
+                }
             }
 
             return;
@@ -146,7 +160,11 @@ module.exports = function (obj, callback) {
 
         // Detect Object Module
         const countObj = require('./files/countObj');
-        items.total = countObj(obj);
+        if (typeof obj !== "number") {
+            items.total = countObj(obj);
+        } else {
+            items.total = obj;
+        }
 
         // Prepare Extra
         const extra = {
@@ -173,7 +191,11 @@ module.exports = function (obj, callback) {
                 const index = extra.list.length - 1;
 
                 // Get Total
-                extra.list[index].total = countObj(new_extra);
+                if (typeof new_extra !== "number") {
+                    extra.list[index].total = countObj(new_extra);
+                } else {
+                    extra.list[index].total = new_extra;
+                }
 
                 // Callback
                 return {
