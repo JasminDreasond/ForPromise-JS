@@ -24,9 +24,6 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 // For Promise
 const forPromise = require('for-promise');
 
-// Module Example
-const fs = require('fs');
-
 // Start For Script
 await forPromise(10, function (index, fn) {
 
