@@ -18,7 +18,28 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 
 ## Simple Example
 
-### Execute a "For Script" with "Promise"
+### Execute a "For Script" with "Promise" in a number variable
+```js
+
+// For Promise
+const forPromise = require('for-promise');
+
+// Module Example
+const fs = require('fs');
+
+// Start For Script
+await forPromise(10, function (index, fn) {
+
+    // Show Index
+    console.log(`The index value is '${index}'.`);
+
+    // The "fn()" will say that the execution of this script has ended.
+    fn();
+
+});
+```
+
+### Execute a "For Script" with "Promise" in a object or array
 ```js
 
 // For Promise
@@ -54,7 +75,7 @@ await forPromise(data, function (index, fn, fn_error) {
 });
 ```
 
-### Execute a "For Script" with extra "For Scripts"
+### Execute a "For Script" with extra "For Scripts" functions
 ```js
 // For Promise
 const forPromise = require('for-promise');
