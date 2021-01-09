@@ -90,7 +90,7 @@ await forPromise(data, function (index, fn, fn_error, extra) {
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
 
-    // Add Extra For Script for the "data"
+    // Add Extra For Script for the "data2"
     const extraForAwait = extra(data2);
 
     // Execute the extra For Script
