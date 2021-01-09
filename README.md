@@ -116,6 +116,9 @@ await forPromise(data, function (index, fn, fn_error, extra) {
 
     });
 
+    // Complete Here
+    fn();
+
 });
 
 
