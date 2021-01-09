@@ -1,13 +1,24 @@
-// The Module
-const forPromise = require('../index');
+const tiny_test = async function () {
 
-// The Test
-forPromise(10, function (item, fn) {
+    // The Module
+    const forPromise = require('../index');
 
-    // Test Value
-    console.log(item);
+    // The Test
+    await forPromise(10, function (item, fn) {
+
+        // Test Value
+        console.log(item);
+
+        // Complete
+        fn();
+
+    });
 
     // Complete
-    fn();
+    console.log('Complete!');
+    return;
 
-});
+};
+
+// Start the Test
+tiny_test();

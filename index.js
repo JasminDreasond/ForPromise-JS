@@ -166,7 +166,7 @@ module.exports = function (obj, callback) {
         if (typeof obj !== "number") {
             items.total = countObj(obj);
         } else {
-            items.total = obj;
+            items.total = obj - 1;
         }
 
         // Prepare Extra
@@ -197,7 +197,7 @@ module.exports = function (obj, callback) {
                 if (typeof new_extra !== "number") {
                     extra.list[index].total = countObj(new_extra);
                 } else {
-                    extra.list[index].total = new_extra;
+                    extra.list[index].total = new_extra - 1;
                 }
 
                 // Callback
