@@ -1,6 +1,6 @@
 {
   "name": "for-promise",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Execute all promises inside a \"for\" script.",
   "main": "index.js",
   "scripts": {},
