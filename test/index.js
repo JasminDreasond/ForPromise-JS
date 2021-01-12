@@ -51,7 +51,7 @@ const tiny_test = async function () {
         type: 'while',
         while: whileData,
         callback: function () {
-            return (whileData.count > 3)
+            return (whileData.count > 3);
         }
     }, function (fn) {
 

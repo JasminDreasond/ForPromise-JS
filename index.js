@@ -47,8 +47,13 @@ module.exports = function (obj, callback) {
                     // Count
                     item_to_edit.count++;
 
-                    // Add Item
-                    item_to_edit.items.push(item);
+                    // Normal
+                    if (item !== null) {
+
+                        // Add Item
+                        item_to_edit.items.push(item);
+
+                    }
 
                     // Complete
                     if (item_to_edit.count >= item_to_edit.total) {
@@ -129,14 +134,17 @@ module.exports = function (obj, callback) {
                         // Try
                         try {
 
+                            // Result Function
+                            const result_data = function () { return result(isExtra, index, item); };
+
                             // Exist Item
-                            if(item !== null) {
-                                callback(item, function () { return result(isExtra, index, item); }, error_result);
+                            if (item !== null) {
+                                callback(item, result_data, error_result);
                             }
 
                             // Nope
                             else {
-                                callback(function () { return result(isExtra, index, item); }, error_result);
+                                callback(result_data, error_result);
                             }
 
                         }
