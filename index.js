@@ -56,7 +56,18 @@ module.exports = function (obj, callback) {
                     }
 
                     // Complete
-                    if (item_to_edit.count >= item_to_edit.total) {
+                    if ((item_to_edit.count >= item_to_edit.total) || (
+
+                        // Type
+                        typeof item_to_edit.type === "string" &&
+                        (
+
+                            // While
+                            (item_to_edit.type === "while" && item_to_edit.count > 0)
+
+                        )
+
+                    )) {
 
                         // Normal Result
                         if (!isExtra) {
@@ -177,9 +188,13 @@ module.exports = function (obj, callback) {
 
                 // Start a While
                 else if (the_item.type === "while") {
-                    do {
-                        if (!runFor_script()) { break; }
-                    } while (the_item.callback());
+
+                    const custom_do = function () {
+
+
+
+                    };
+
                 }
 
                 // Number Type
