@@ -3,6 +3,7 @@ module.exports = function (obj, callback) {
 
         //  Super Validator
         const superValidator = require('./files/superValidator');
+        const validateTotal = require('./files/validateTotal');
 
         // Validator
         if (superValidator(obj)) {
@@ -175,12 +176,7 @@ module.exports = function (obj, callback) {
             };
 
             // Detect Object Module
-            const countObj = require('./files/countObj');
-            if (typeof obj.data !== "number") {
-                items.total = countObj(obj.data);
-            } else {
-                items.total = obj.data - 1;
-            }
+            items.total = validateTotal(obj.data);
 
             // Prepare Extra
             const extra = {
@@ -210,11 +206,7 @@ module.exports = function (obj, callback) {
                         const index = extra.list.length - 1;
 
                         // Get Total
-                        if (typeof new_extra.data !== "number") {
-                            extra.list[index].total = countObj(new_extra.data);
-                        } else {
-                            extra.list[index].total = new_extra.data - 1;
-                        }
+                        extra.list[index].total = validateTotal(new_extra.data);
 
                         // Callback
                         return {
