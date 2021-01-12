@@ -4,10 +4,41 @@ const tiny_test = async function () {
     const forPromise = require('../index');
 
     // The Test
-    await forPromise({ data: 10 }, function (item, fn) {
+
+    // Number
+    await forPromise({ data: 3 }, function (item, fn) {
 
         // Test Value
-        console.log(item);
+        console.log(`Number: ${item}`);
+
+        // Complete
+        fn();
+
+    });
+
+    // Object
+    await forPromise({
+        data: {
+            test1: true,
+            test2: true
+        }
+    }, function (item, fn) {
+
+        // Test Value
+        console.log(`Object: ${item}`);
+
+        // Complete
+        fn();
+
+    });
+
+    // Array
+    await forPromise({
+        data: [1, 2, 3]
+    }, function (item, fn) {
+
+        // Test Value
+        console.log(`Array: ${item}`);
 
         // Complete
         fn();
