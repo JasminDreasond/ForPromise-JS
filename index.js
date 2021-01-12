@@ -5,8 +5,11 @@ module.exports = function (obj, callback) {
         const superValidator = require('./files/superValidator');
         const validateTotal = require('./files/validateTotal');
 
+        // Validate Obj
+        const objValidated = superValidator(obj);
+
         // Validator
-        if (superValidator(obj)) {
+        if (objValidated.confirmed) {
 
             // Prepare Count
             let items = {
@@ -189,11 +192,15 @@ module.exports = function (obj, callback) {
                 // Start a While
                 else if (the_item.type === "while") {
 
+                    // Prepare
                     const custom_do = function () {
 
 
 
                     };
+
+                    // Start
+                    custom_do();
 
                 }
 
@@ -211,6 +218,9 @@ module.exports = function (obj, callback) {
             // Detect Object Module
             items.total = validateTotal(obj.data);
 
+            // Type
+            if (objValidated.type) { items.type = objValidated.type; }
+
             // Prepare Extra
             const extra = {
 
@@ -223,8 +233,11 @@ module.exports = function (obj, callback) {
                 // Functions
                 extra_function: function (new_extra) {
 
+                    // Validate Obj
+                    const objValidated = superValidator(new_extra);
+
                     // Validator
-                    if (superValidator(new_extra)) {
+                    if (objValidated.confirmed) {
 
                         // Prepare Extra
                         extra.enabled = true;
@@ -240,6 +253,9 @@ module.exports = function (obj, callback) {
 
                         // Get Total
                         extra.list[index].total = validateTotal(new_extra.data);
+
+                        // Type
+                        if (objValidated.type) { extra.list[index].type = objValidated.type; }
 
                         // Callback
                         return {

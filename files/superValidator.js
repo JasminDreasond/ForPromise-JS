@@ -2,8 +2,9 @@ module.exports = function (obj) {
 
     // Start Module
     const objType = require('./objType');
+    const result = { confirmed: false };
 
-    // Yep
+    // Normal
     if (
 
         // Main Type
@@ -17,43 +18,36 @@ module.exports = function (obj) {
             Array.isArray(obj.data) ||
 
             // Number
-            typeof obj.data === "number" ||
-
-            // Type
-            (
-
-                // Confirm the type is String
-                typeof obj.type === "string" &&
-
-                // Type List
-                (
-
-                    // While
-                    (
-
-                        // Confirm Type
-                        obj.type === "while" &&
-
-                        // Not Empty
-                        typeof obj.while !== "undefined" &&
-
-                        // Detect Function
-                        typeof obj.callback === "function"
-
-                    )
-
-                )
-
-            )
+            typeof obj.data === "number"
 
         )
     ) {
-        return true;
+        result.confirmed = true;
     }
 
-    // Nope
-    else {
-        return false;
+    // Type
+    else if (typeof obj.type === "string") {
+
+        // While
+        if (
+
+            // Confirm Type
+            obj.type === "while" &&
+
+            // Not Empty
+            typeof obj.while !== "undefined" &&
+
+            // Detect Function
+            typeof obj.callback === "function"
+
+        ) {
+            result.confirmed = true;
+            result.type = 'while';
+        }
+
     }
+
+    // Complete
+    return result;
 
 };
