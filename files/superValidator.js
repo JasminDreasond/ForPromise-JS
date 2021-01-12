@@ -5,11 +5,31 @@ module.exports = function (obj) {
 
     // Yep
     if (
+
+        // Main Type
         objType(obj, 'object') &&
         (
+
+            // Object
             objType(obj.data, 'object') ||
+
+            // Array
             Array.isArray(obj.data) ||
-            typeof obj.data === "number"
+
+            // Number
+            typeof obj.data === "number" ||
+
+            // Type
+            (
+
+                // Confirm the type is String
+                typeof obj.type === "string" &&
+
+                // While Type
+                obj.type === "while"
+
+            )
+
         )
     ) {
         return true;
