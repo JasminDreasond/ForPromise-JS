@@ -179,7 +179,7 @@ module.exports = function (obj, callback) {
             if (typeof obj.data !== "number") {
                 items.total = countObj(obj.data);
             } else {
-                items.total = obj - 1;
+                items.total = obj.data - 1;
             }
 
             // Prepare Extra
@@ -213,7 +213,7 @@ module.exports = function (obj, callback) {
                         if (typeof new_extra.data !== "number") {
                             extra.list[index].total = countObj(new_extra.data);
                         } else {
-                            extra.list[index].total = new_extra - 1;
+                            extra.list[index].total = new_extra.data - 1;
                         }
 
                         // Callback
