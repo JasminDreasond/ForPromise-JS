@@ -122,7 +122,7 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 });
 ```
 
-### Execute a "Do Script"
+### Execute a "Do While Script"
 ```js
 // For Promise
 const forPromise = require('for-promise');
