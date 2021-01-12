@@ -168,7 +168,7 @@ module.exports = function (obj, callback) {
                 }
 
                 // Start a While
-                else if (typeof the_item.type === "while") {
+                else if (the_item.type === "while") {
                     do {
                         if (!runFor_script()) { break; }
                     } while (the_item.callback());
