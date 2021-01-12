@@ -34,8 +34,11 @@ module.exports = function (obj) {
                         // Confirm Type
                         obj.type === "while" &&
 
+                        // Not Empty
+                        typeof obj.data !== "undefined" &&
+
                         // Detect Function
-                        typeof obj.data === "function"
+                        typeof obj.callback === "function"
 
                     )
 

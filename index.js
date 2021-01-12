@@ -120,7 +120,7 @@ module.exports = function (obj, callback) {
                 }
 
                 // Run Script
-                const runFor_script = function (item) {
+                const runFor_script = function (item = null) {
 
                     // No Error
                     if (!items.error) {
@@ -158,7 +158,9 @@ module.exports = function (obj, callback) {
 
                 // Start a While
                 else if (typeof the_item.type === "while") {
-
+                    do {
+                        if (!runFor_script()) { break; }
+                    } while (the_item.callback());
                 }
 
                 // Number Type
