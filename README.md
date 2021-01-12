@@ -127,19 +127,27 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 // For Promise
 const forPromise = require('for-promise');
 
+// Prepare Do Whilte Data
 const whileData = { count: 0 };
+
+// Start the Promise
 await forPromise({
+    
+    // Prepare Settings
     type: 'while',
     while: whileData,
+
+    // The Value will be checked here
     checker: function () {
         return (whileData.count > 3);
     }
+
 }, function (fn_error) {
 
 // Test Value
 console.log(`Do: ${whileData.count}`);
 
-// Count
+// Count the Value
 whileData.count++;
 
 /* 
