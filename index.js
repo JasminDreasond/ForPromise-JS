@@ -154,12 +154,12 @@ module.exports = function (obj, callback) {
 
                             // Exist Item
                             if (item !== null) {
-                                callback(item, result_data, error_result);
+                                callback(item, result_data, error_result, extra.extra_function);
                             }
 
                             // Nope
                             else {
-                                callback(result_data, error_result);
+                                callback(result_data, error_result, extra.extra_function);
                             }
 
                         }
@@ -204,7 +204,7 @@ module.exports = function (obj, callback) {
 
                                 // Validate
                                 if (!the_item.checker()) {
-                                    callback(error_result);
+                                    callback(error_result, extra.extra_function);
                                     return custom_do();
                                 }
 
