@@ -112,6 +112,7 @@ module.exports = function (obj, callback) {
 
                             // Nope
                             else {
+                                items.error = true;
                                 reject(new Error('forAwait Extra Index not found.'));
                             }
 
@@ -184,45 +185,58 @@ module.exports = function (obj, callback) {
 
                 // Start the For
                 if (typeof the_item.data !== "number") {
-                    for (const item in the_item.data) {
-                        if (!runFor_script(item)) { break; }
+
+                    // For Object
+                    if (!the_item.type) {
+                        for (const item in the_item.data) {
+                            if (!runFor_script(item)) { break; }
+                        }
                     }
-                }
 
-                // Start a While
-                else if (the_item.type === "while") {
+                    // Type
+                    else {
 
-                    // Prepare
-                    const custom_do = function () {
+                        // Start a While
+                        if (the_item.type === "while") {
 
-                        // Validate
-                        if (!the_item.callback()) {
-                            callback(error_result);
-                            return custom_do();
+                            // Prepare
+                            const custom_do = function () {
+
+                                // Validate
+                                if (!the_item.callback()) {
+                                    callback(error_result);
+                                    return custom_do();
+                                }
+
+                                // Nope
+                                else {
+
+                                    // Normal
+                                    if (!isExtra) {
+                                        items.count = 1;
+                                    }
+
+                                    // Extra
+                                    else {
+                                        extra.list[index].count = 1;
+                                    }
+
+                                    // Result
+                                    return result(isExtra, index, null);
+
+                                }
+
+                            };
+
+                            // Start
+                            custom_do();
+
                         }
 
-                        // Nope
-                        else {
+                        // Nothing
+                        else { items.error = true; reject(new Error('Invalid Function Type!')); }
 
-                            // Normal
-                            if (!isExtra) {
-                                items.count = 1;
-                            } 
-                            
-                            // Extra
-                            else {
-                                extra.list[index].count = 1;  
-                            }
-
-                            // Result
-                            return result(isExtra, index, null);
-
-                        }
-
-                    };
-
-                    // Start
-                    custom_do();
+                    }
 
                 }
 
