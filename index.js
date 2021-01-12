@@ -156,6 +156,11 @@ module.exports = function (obj, callback) {
                     }
                 }
 
+                // Start a While
+                else if (typeof the_item.type === "while") {
+
+                }
+
                 // Number Type
                 else {
                     for (let item = 0; item < the_item.data; item++) {

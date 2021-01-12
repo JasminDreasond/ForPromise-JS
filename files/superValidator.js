@@ -25,8 +25,21 @@ module.exports = function (obj) {
                 // Confirm the type is String
                 typeof obj.type === "string" &&
 
-                // While Type
-                obj.type === "while"
+                // Type List
+                (
+
+                    // While
+                    (
+
+                        // Confirm Type
+                        obj.type === "while" &&
+
+                        // Detect Function
+                        typeof obj.data === "function"
+
+                    )
+
+                )
 
             )
 
