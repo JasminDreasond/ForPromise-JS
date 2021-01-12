@@ -64,14 +64,14 @@ const tiny_test = async function () {
     });
 
     // The Data
-    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const data2 = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    const data = [1, 2];
+    const data2 = [1, 2];
 
     // Start For Script
     await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 
         // Show Index
-        console.log(`For (Normal): '${index}'`);
+        console.group(`For (Normal): '${index}'`);
 
         // Add Extra For Script for the "data2"
         const extraForAwait = extra({ data: data2 });
@@ -84,6 +84,8 @@ const tiny_test = async function () {
             fn();
 
         });
+
+        console.groupEnd();
 
         // Complete Here
         fn();
