@@ -46,17 +46,20 @@ const tiny_test = async function () {
     });
 
     // While
-    const whileData = { confirmed: true };
+    const whileData = { count: 0 };
     await forPromise({
         type: 'while',
         data: whileData,
         callback: function () {
-            return (whileData.confirmed === true)
+            return (whileData.count < 3)
         }
     }, function (fn) {
 
         // Test Value
-        console.log(`Array: ${item}`);
+        console.log(`Do: ${whileData.count}`);
+
+        // Count
+        whileData.count++;
 
         // Complete
         fn();
