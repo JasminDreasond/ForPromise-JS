@@ -4,7 +4,7 @@ const tiny_test = async function () {
     const forPromise = require('../index');
 
     // The Test
-    await forPromise(10, function (item, fn) {
+    await forPromise({ data: 10 }, function (item, fn) {
 
         // Test Value
         console.log(item);
