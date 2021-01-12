@@ -45,6 +45,24 @@ const tiny_test = async function () {
 
     });
 
+    // While
+    const whileData = { confirmed: true };
+    await forPromise({
+        type: 'while',
+        data: whileData,
+        callback: function () {
+            return (whileData.confirmed === true)
+        }
+    }, function (fn) {
+
+        // Test Value
+        console.log(`Array: ${item}`);
+
+        // Complete
+        fn();
+
+    });
+
     // Complete
     console.log('Complete!');
     return;

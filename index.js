@@ -128,7 +128,17 @@ module.exports = function (obj, callback) {
 
                         // Try
                         try {
-                            callback(item, function () { return result(isExtra, index, item); }, error_result, extra.extra_function);
+
+                            // Exist Item
+                            if(item !== null) {
+                                callback(item, function () { return result(isExtra, index, item); }, error_result);
+                            }
+
+                            // Nope
+                            else {
+                                callback(function () { return result(isExtra, index, item); }, error_result);
+                            }
+
                         }
 
                         // Error
