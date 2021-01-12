@@ -49,11 +49,13 @@ const tiny_test = async function () {
     const whileData = { count: 0 };
     await forPromise({
         type: 'while',
-        data: whileData,
+        while: whileData,
         callback: function () {
             return (whileData.count < 3)
         }
     }, function (fn) {
+        
+        console.log(fn);
 
         // Test Value
         console.log(`Do: ${whileData.count}`);
