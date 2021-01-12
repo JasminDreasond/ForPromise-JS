@@ -142,7 +142,7 @@ await forPromise({
         return (whileData.count < 3);
     }
 
-}, function (fn_error) {
+}, function (fn, fn_error) {
 
 // Test Value
 console.log(`Do: ${whileData.count}`);
@@ -150,12 +150,8 @@ console.log(`Do: ${whileData.count}`);
 // Count the Value
 whileData.count++;
 
-/* 
-
-Here we can only use the FN Error to return an error in the script.
-fn_error();
-
-*/
+// Complete
+fn();
 
 });
 ```
