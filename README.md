@@ -24,8 +24,11 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 // For Promise
 const forPromise = require('for-promise');
 
+// The Data
+const dataCount = 10;
+
 // Start For Script
-await forPromise(10, function (index, fn) {
+await forPromise({ data: dataCount }, function (index, fn) {
 
     // Show Index
     console.log(`The index value is '${index}'.`);
@@ -49,7 +52,7 @@ const fs = require('fs');
 const data = [1,2,3,4,5,6,7,8,9,10];
 
 // Start For Script
-await forPromise(data, function (index, fn, fn_error) {
+await forPromise({ data: data }, function (index, fn, fn_error) {
 
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
@@ -85,13 +88,13 @@ const data = [1,2,3,4,5,6,7,8,9,10];
 const data2 = [11,12,13,14,15,16,17,18,19,20];
 
 // Start For Script
-await forPromise(data, function (index, fn, fn_error, extra) {
+await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
 
     // Add Extra For Script for the "data2"
-    const extraForAwait = extra(data2);
+    const extraForAwait = extra({ data: data2 });
 
     // Execute the extra For Script
     extraForAwait.run(function (index2, fn, fn_error) {
