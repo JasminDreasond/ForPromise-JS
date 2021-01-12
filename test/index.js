@@ -53,7 +53,7 @@ const tiny_test = async function () {
         callback: function () {
             return (whileData.count > 3);
         }
-    }, function (fn) {
+    }, function (fn_error) {
 
         // Test Value
         console.log(`Do: ${whileData.count}`);
@@ -61,8 +61,8 @@ const tiny_test = async function () {
         // Count
         whileData.count++;
 
-        // Complete
-        fn();
+        // Error
+        //fn_error();
 
     });
 

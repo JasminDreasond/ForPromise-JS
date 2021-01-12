@@ -195,7 +195,29 @@ module.exports = function (obj, callback) {
                     // Prepare
                     const custom_do = function () {
 
+                        // Validate
+                        if (!the_item.callback()) {
+                            callback(error_result);
+                            return custom_do();
+                        }
 
+                        // Nope
+                        else {
+
+                            // Normal
+                            if (!isExtra) {
+                                items.count = 1;
+                            } 
+                            
+                            // Extra
+                            else {
+                                extra.list[index].count = 1;  
+                            }
+
+                            // Result
+                            return result(isExtra, index, null);
+
+                        }
 
                     };
 
