@@ -203,7 +203,7 @@ module.exports = function (obj, callback) {
                             const custom_do = function () {
 
                                 // Validate
-                                if (!the_item.checker()) {
+                                if (the_item.checker()) {
                                     callback(error_result, extra.extra_function);
                                     return custom_do();
                                 }

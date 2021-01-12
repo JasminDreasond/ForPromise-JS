@@ -139,7 +139,7 @@ await forPromise({
 
     // The Value will be checked here
     checker: function () {
-        return (whileData.count > 3);
+        return (whileData.count < 3);
     }
 
 }, function (fn_error) {
