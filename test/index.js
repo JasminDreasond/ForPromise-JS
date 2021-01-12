@@ -50,7 +50,7 @@ const tiny_test = async function () {
     await forPromise({
         type: 'while',
         while: whileData,
-        callback: function () {
+        checker: function () {
             return (whileData.count > 3);
         }
     }, function (fn_error) {

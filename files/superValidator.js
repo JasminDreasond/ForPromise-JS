@@ -38,7 +38,7 @@ module.exports = function (obj) {
             typeof obj.while !== "undefined" &&
 
             // Detect Function
-            typeof obj.callback === "function"
+            typeof obj.checker === "function"
 
         ) {
             result.confirmed = true;
