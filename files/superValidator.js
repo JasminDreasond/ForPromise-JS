@@ -9,7 +9,7 @@ module.exports = function (obj) {
         (
             objType(obj.data, 'object') ||
             Array.isArray(obj.data) ||
-            typeof obj.data === "string"
+            typeof obj.data === "number"
         )
     ) {
         return true;
