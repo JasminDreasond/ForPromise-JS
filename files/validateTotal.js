@@ -5,7 +5,7 @@ module.exports = function (obj) {
     const objType = require('./objType');
 
     // Get Total
-    let newTotal = 1;
+    let newTotal = 0;
     if (typeof obj !== "number") {
         if (objType(obj, 'object') || Array.isArray(obj)) {
             newTotal = countObj(obj);

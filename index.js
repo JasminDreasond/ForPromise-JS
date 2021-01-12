@@ -204,26 +204,25 @@ module.exports = function (obj, callback) {
 
                                 // Validate
                                 if (the_item.checker()) {
-                                    return callback(custom_do, error_result, extra.extra_function);
+
+                                    // Prepare Edit
+                                    let item_to_edit = null;
+
+                                    // Not Extra
+                                    if (!isExtra) {
+                                        item_to_edit = items;
+                                    } else {
+                                        item_to_edit = extra.list[index]
+                                    }
+
+                                    item_to_edit.total++;
+
+                                    return callback(function () { item_to_edit.count++; return result(isExtra, index, null); }, error_result, extra.extra_function);
+
                                 }
 
                                 // Nope
-                                else {
-
-                                    // Normal
-                                    if (!isExtra) {
-                                        items.count = 1;
-                                    }
-
-                                    // Extra
-                                    else {
-                                        extra.list[index].count = 1;
-                                    }
-
-                                    // Result
-                                    return result(isExtra, index, null);
-
-                                }
+                                else { return; }
 
                             };
 
