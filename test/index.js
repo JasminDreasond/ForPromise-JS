@@ -63,6 +63,33 @@ const tiny_test = async function () {
 
     });
 
+    // The Data
+    const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const data2 = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+    // Start For Script
+    await forPromise({ data: data }, function (index, fn, fn_error, extra) {
+
+        // Show Index
+        console.log(`For (Normal): '${index}'`);
+
+        // Add Extra For Script for the "data2"
+        const extraForAwait = extra({ data: data2 });
+
+        // Execute the extra For Script
+        extraForAwait.run(function (index2, fn) {
+
+            // Show Index
+            console.log(`For (Extra): '${index2}'`);
+            fn();
+
+        });
+
+        // Complete Here
+        fn();
+
+    });
+
     // Complete
     console.log('Complete!');
     return;
