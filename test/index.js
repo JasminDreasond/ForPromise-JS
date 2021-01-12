@@ -53,16 +53,13 @@ const tiny_test = async function () {
         checker: function () {
             return (whileData.count > 3);
         }
-    }, function (fn_error) {
+    }, function () {
 
         // Test Value
         console.log(`Do: ${whileData.count}`);
 
         // Count
         whileData.count++;
-
-        // Error
-        //fn_error();
 
     });
 

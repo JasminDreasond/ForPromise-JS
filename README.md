@@ -20,7 +20,6 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 
 ### Execute a "For Script" with "Promise" in a number variable
 ```js
-
 // For Promise
 const forPromise = require('for-promise');
 
@@ -41,7 +40,6 @@ await forPromise({ data: dataCount }, function (index, fn) {
 
 ### Execute a "For Script" with "Promise" in a object or array
 ```js
-
 // For Promise
 const forPromise = require('for-promise');
 
@@ -123,6 +121,33 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
     fn();
 
 });
+```
 
+```js
+// For Promise
+const forPromise = require('for-promise');
 
+const whileData = { count: 0 };
+await forPromise({
+    type: 'while',
+    while: whileData,
+    checker: function () {
+        return (whileData.count > 3);
+    }
+}, function (fn_error) {
+
+// Test Value
+console.log(`Do: ${whileData.count}`);
+
+// Count
+whileData.count++;
+
+/* 
+
+Here we can only use the FN Error to return an error in the script.
+fn_error();
+
+*/
+
+});
 ```
