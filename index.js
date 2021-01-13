@@ -215,14 +215,17 @@ module.exports = function (obj, callback) {
                                         item_to_edit = extra.list[index]
                                     }
 
+                                    // Add Total
                                     item_to_edit.total++;
 
-                                    return callback(function () { item_to_edit.count++; return result(isExtra, index, null); }, error_result, extra.extra_function);
+                                    // Callback and Continue
+                                    callback(function () { item_to_edit.count++; return result(isExtra, index, null); }, error_result, extra.extra_function);
+                                    return custom_do();
 
                                 }
 
                                 // Nope
-                                else { return; }
+                                else { return result(isExtra, index, null); }
 
                             };
 
