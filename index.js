@@ -188,9 +188,19 @@ module.exports = function (obj, callback) {
 
                     // For Object
                     if (!the_item.type) {
+
+                        // Start For
+                        let for_used = false;
                         for (const item in the_item.data) {
+                            for_used = true;
                             if (!runFor_script(item)) { break; }
                         }
+
+                        // Not Used? Confirmed
+                        if (!for_used) {
+                            return result(isExtra, index, null);
+                        }
+
                     }
 
                     // Type
@@ -243,9 +253,19 @@ module.exports = function (obj, callback) {
 
                 // Number Type
                 else {
-                    for (let item = 0; item < the_item.data; item++) {
-                        if (!runFor_script(item)) { break; }
+
+                    // Exist Number
+                    if (the_item.data > 0) {
+                        for (let item = 0; item < the_item.data; item++) {
+                            if (!runFor_script(item)) { break; }
+                        }
+                    } 
+                    
+                    // Nope
+                    else {
+                        return result(isExtra, index, null);
                     }
+                    
                 }
 
                 return;
