@@ -46,8 +46,29 @@ module.exports = function (obj, callback) {
                     item_to_edit = extra.list[extraIndex]
                 }
 
+                // Force Break
+                const forceBreakResult = { isObject: (objType(forceBreak, 'object')) };
+
+                // Is Boolean
+                if (!forceBreakResult.isObject) {
+                    if (!item_to_edit.forceBreak) { forceBreakResult.allowed = (typeof forceBreak === "boolean" && forceBreak); } else {
+                        forceBreakResult.allowed = false;
+                    }
+                    forceBreakResult.notSendResult = false;
+                    forceBreakResult.forceResult = false;
+                }
+
+                // Object
+                else {
+                    if (!item_to_edit.forceBreak) { forceBreakResult.allowed = (typeof forceBreak.break === "boolean" && forceBreak.break); } else {
+                        forceBreakResult.allowed = false;
+                    }
+                    forceBreakResult.notSendResult = (typeof forceBreak.notSendResult === "boolean" && forceBreak.notSendResult);
+                    forceBreakResult.forceResult = (typeof forceBreak.forceResult === "boolean" && forceBreak.forceResult);
+                }
+
                 // No Error
-                if (!item_to_edit.error && !item_to_edit.forceBreak) {
+                if ((!item_to_edit.error && !item_to_edit.forceBreak) || forceBreakResult.forceResult) {
 
                     // Count
                     item_to_edit.count++;
@@ -60,23 +81,8 @@ module.exports = function (obj, callback) {
 
                     }
 
-                    // Force Break
-                    const forceBreakResult = { isObject: (objType(forceBreak, 'object')) };
-
-                    // Is Boolean
-                    if (!forceBreakResult.isObject) {
-                        forceBreakResult.allowed = (typeof forceBreak === "boolean" && forceBreak);
-                        forceBreakResult.notSendResult = false;
-                    }
-
-                    // Object
-                    else {
-                        forceBreakResult.allowed = (typeof forceBreak.break === "boolean" && forceBreak.break);
-                        forceBreakResult.notSendResult = (typeof forceBreak.notSendResult === "boolean" && forceBreak.notSendResult);
-                    }
-
                     // Set Force Break
-                    if (forceBreakResult.allowed) {
+                    if (!item_to_edit.forceBreak && forceBreakResult.allowed) {
                         item_to_edit.forceBreak = true;
                         item_to_edit.count = item_to_edit.total + 1;
                     }
