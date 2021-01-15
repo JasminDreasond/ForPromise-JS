@@ -17,7 +17,7 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 
 ## Simple Example
 
-### Execute a "For Script" with "Promise" in a number variable
+### Execute a "For Script" with "Promise" in a number variable.
 ```js
 // For Promise
 const forPromise = require('for-promise');
@@ -37,7 +37,7 @@ await forPromise({ data: dataCount }, function (index, fn) {
 });
 ```
 
-### Execute a "For Script" with "Promise" in a object or array
+### Execute a "For Script" with "Promise" in a object or array.
 ```js
 // For Promise
 const forPromise = require('for-promise');
@@ -72,7 +72,7 @@ await forPromise({ data: data }, function (index, fn, fn_error) {
 });
 ```
 
-### Execute a "For Script" with extra "For Scripts" functions
+### Execute a "For Script" with extra "For Scripts" functions.
 ```js
 // For Promise
 const forPromise = require('for-promise');
@@ -122,7 +122,7 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 });
 ```
 
-### Execute a "Do While Script"
+### Execute a "Do While Script".
 ```js
 // For Promise
 const forPromise = require('for-promise');
@@ -156,7 +156,7 @@ fn();
 });
 ```
 
-### Execute a "For Script" with "Break FN" (It is the same result of adding a "break" to a "For Script")
+### Execute a "For Script" with "Break FN". It is the same result of adding a "break" to a "For Script".
 ```js
 // For Promise
 const forPromise = require('for-promise');
