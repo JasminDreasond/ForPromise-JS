@@ -4,6 +4,7 @@ module.exports = function (obj, callback) {
         //  Super Validator
         const superValidator = require('./files/superValidator');
         const validateTotal = require('./files/validateTotal');
+        const objType = require('./files/objType');
 
         // Validate Obj
         const objValidated = superValidator(obj);
@@ -60,24 +61,49 @@ module.exports = function (obj, callback) {
                     }
 
                     // Force Break
-                    if (typeof forceBreak === "boolean" && forceBreak) {
+                    const forceBreakResult = { isObject: (objType(forceBreak, 'object')) };
+
+                    // Is Boolean
+                    if (!forceBreakResult.isObject) {
+                        forceBreakResult.allowed = (typeof forceBreak === "boolean" && forceBreak);
+                        forceBreakResult.notSendResult = false;
+                    }
+
+                    // Object
+                    else {
+                        forceBreakResult.allowed = (typeof forceBreak.break === "boolean" && forceBreak.break);
+                        forceBreakResult.notSendResult = (typeof forceBreak.notSendResult === "boolean" && forceBreak.notSendResult);
+                    }
+
+                    // Set Force Break
+                    if (forceBreakResult.allowed) {
                         item_to_edit.forceBreak = true;
                         item_to_edit.count = item_to_edit.total + 1;
                     }
 
                     // Complete
-                    if ((item_to_edit.count >= item_to_edit.total) || (
+                    if (
 
-                        // Type
-                        typeof item_to_edit.type === "string" &&
-                        (
+                        // Can Send Results
+                        !forceBreakResult.notSendResult && (
 
-                            // While
-                            (item_to_edit.type === "while" && item_to_edit.count > 0)
+                            // Count is Bigger
+                            (item_to_edit.count >= item_to_edit.total) || (
+
+                                // Type
+                                typeof item_to_edit.type === "string" &&
+                                (
+
+                                    // While
+                                    (item_to_edit.type === "while" && item_to_edit.count > 0)
+
+                                )
+
+                            )
 
                         )
 
-                    )) {
+                    ) {
 
                         // Normal Result
                         if (!isExtra) {
