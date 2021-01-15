@@ -156,7 +156,7 @@ fn();
 });
 ```
 
-### Execute a "For Script" with "Break FN" (It is the same result of adding a break to a "For")
+### Execute a "For Script" with "Break FN" (It is the same result of adding a "break" to a "For Script")
 ```js
 // For Promise
 const forPromise = require('for-promise');
