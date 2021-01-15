@@ -46,7 +46,7 @@ module.exports = function (obj, callback) {
                 }
 
                 // No Error
-                if (!item_to_edit.error) {
+                if (!item_to_edit.error && !item_to_edit.forceBreak) {
 
                     // Count
                     item_to_edit.count++;
@@ -151,7 +151,7 @@ module.exports = function (obj, callback) {
                 const runFor_script = function (item = null) {
 
                     // No Error
-                    if (!items.error) {
+                    if (!items.error && !items.forceBreak) {
 
                         // Try
                         try {
@@ -329,7 +329,7 @@ module.exports = function (obj, callback) {
                             run: function (callback) {
 
                                 // Run For
-                                if (!items.error) { runFor(callback, true, index, new_extra); }
+                                if (!items.error && !items.forceBreak) { runFor(callback, true, index, new_extra); }
 
                                 // Complete
                                 return;
