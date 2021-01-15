@@ -94,7 +94,7 @@ const tiny_test = async function () {
 
     });
 
-    // Array
+    // Force Break
     await forPromise({
         data: [1, 2, 3]
     }, function (item, fn) {
