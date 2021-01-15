@@ -54,7 +54,7 @@ module.exports = function (obj, callback) {
                     if (!item_to_edit.forceBreak) { forceBreakResult.allowed = (typeof forceBreak === "boolean" && forceBreak); } else {
                         forceBreakResult.allowed = false;
                     }
-                    forceBreakResult.notSendResult = false;
+                    forceBreakResult.dontSendResult = false;
                     forceBreakResult.forceResult = false;
                 }
 
@@ -63,7 +63,7 @@ module.exports = function (obj, callback) {
                     if (!item_to_edit.forceBreak) { forceBreakResult.allowed = (typeof forceBreak.break === "boolean" && forceBreak.break); } else {
                         forceBreakResult.allowed = false;
                     }
-                    forceBreakResult.notSendResult = (typeof forceBreak.notSendResult === "boolean" && forceBreak.notSendResult);
+                    forceBreakResult.dontSendResult = (typeof forceBreak.dontSendResult === "boolean" && forceBreak.dontSendResult);
                     forceBreakResult.forceResult = (typeof forceBreak.forceResult === "boolean" && forceBreak.forceResult);
                 }
 
@@ -91,7 +91,7 @@ module.exports = function (obj, callback) {
                     if (
 
                         // Can Send Results
-                        !forceBreakResult.notSendResult && (
+                        !forceBreakResult.dontSendResult && (
 
                             // Count is Bigger
                             (item_to_edit.count >= item_to_edit.total) || (

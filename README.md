@@ -198,7 +198,7 @@ await forPromise({
     });
 
     // Force Complete
-    fn({ break: true, notSendResult: true });
+    fn({ break: true, dontSendResult: true });
 
 });
 ```

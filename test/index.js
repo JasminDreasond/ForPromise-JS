@@ -133,7 +133,7 @@ const tiny_test = async function () {
         });
 
         // Force Complete
-        fn({ break: true, notSendResult: true });
+        fn({ break: true, dontSendResult: true });
 
     });
 
