@@ -176,6 +176,14 @@ await forPromise({
 ```
 
 ```js
+// For Promise
+const forPromise = require('for-promise');
+
+// Module Example
+const fs = require('fs');
+const path = require('path');
+
+// Start the Promise
 await forPromise({
     data: [1, 2, 3]
 }, function (item, fn, fn_error) {
@@ -201,4 +209,5 @@ await forPromise({
     fn({ break: true, dontSendResult: true });
 
 });
+
 ```
