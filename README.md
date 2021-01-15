@@ -189,7 +189,7 @@ await forPromise({
 }, function (item, fn, fn_error) {
 
     // Wait Script
-    fs.readdir(path.join(__dirname, '../files'), (err, files) => {
+    fs.readdir(path.join(__dirname, './folder'), (err, files) => {
 
         // Success! The "fn()" will say that the execution of this script has ended. 
         if (!err) {
