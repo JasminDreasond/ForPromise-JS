@@ -176,14 +176,14 @@ await forPromise({
 ```
 
 ```js
-    await forPromise({
-        data: [1, 2, 3]
-    }, function (item, fn, fn_error) {
+await forPromise({
+    data: [1, 2, 3]
+}, function (item, fn, fn_error) {
 
-        // Wait Script
-        fs.readdir(path.join(__dirname, '../files'), (err, files) => {
+    // Wait Script
+    fs.readdir(path.join(__dirname, '../files'), (err, files) => {
 
-        // Success! The "fn()" will say that the execution of this script has ended with a Force Final Result. 
+        // Success! The "fn()" will say that the execution of this script has ended. 
         if (!err) {
             console.log(`Force Break used to read this data: ${item}`);
             console.log(files);
@@ -195,7 +195,7 @@ await forPromise({
             fn_error(err);
         }
 
-    });
+     });
 
     // Force Complete
     fn({ break: true, dontSendResult: true });
