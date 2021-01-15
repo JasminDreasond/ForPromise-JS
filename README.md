@@ -155,3 +155,22 @@ fn();
 
 });
 ```
+
+### Execute a "For Script" with "Break FN" (It is the same result of adding a break to a "For")
+```js
+// For Promise
+const forPromise = require('for-promise');
+
+// Start the Promise
+await forPromise({
+    data: [1, 2, 3]
+}, function (item, fn) {
+
+    // Test Value
+    console.log(`Array with Force Break: ${item}`);
+
+    // Break FN
+    fn(true);
+
+});
+```
