@@ -14,6 +14,7 @@ module.exports = function (obj, callback) {
             // Prepare Count
             let items = {
                 error: false,
+                forceBreak: false,
                 count: 0,
                 total: null,
                 items: []
@@ -32,7 +33,7 @@ module.exports = function (obj, callback) {
             };
 
             // Prepare Result
-            const result = function (isExtra, extraIndex, item) {
+            const result = function (isExtra, extraIndex, item, forceBreak = false) {
 
                 // Prepare Edit
                 let item_to_edit = null;
@@ -56,6 +57,12 @@ module.exports = function (obj, callback) {
                         // Add Item
                         item_to_edit.items.push(item);
 
+                    }
+
+                    // Force Break
+                    if (typeof forceBreak === "boolean" && forceBreak) {
+                        item_to_edit.forceBreak = true;
+                        item_to_edit.count = item_to_edit.total + 1;
                     }
 
                     // Complete
@@ -150,7 +157,7 @@ module.exports = function (obj, callback) {
                         try {
 
                             // Result Function
-                            const result_data = function () { return result(isExtra, index, item); };
+                            const result_data = function (forceBreak) { return result(isExtra, index, item, forceBreak); };
 
                             // Exist Item
                             if (item !== null) {
@@ -229,7 +236,7 @@ module.exports = function (obj, callback) {
                                     item_to_edit.total++;
 
                                     // Callback and Continue
-                                    callback(function () { item_to_edit.count++; return result(isExtra, index, null); }, error_result, extra.extra_function);
+                                    callback(function (forceBreak) { item_to_edit.count++; return result(isExtra, index, null, forceBreak); }, error_result, extra.extra_function);
                                     return custom_do();
 
                                 }
@@ -259,13 +266,13 @@ module.exports = function (obj, callback) {
                         for (let item = 0; item < the_item.data; item++) {
                             if (!runFor_script(item)) { break; }
                         }
-                    } 
-                    
+                    }
+
                     // Nope
                     else {
                         return result(isExtra, index, null);
                     }
-                    
+
                 }
 
                 return;
@@ -300,6 +307,7 @@ module.exports = function (obj, callback) {
                         extra.enabled = true;
                         extra.list.push({
                             complete: false,
+                            forceBreak: false,
                             count: 0,
                             total: null,
                             items: []

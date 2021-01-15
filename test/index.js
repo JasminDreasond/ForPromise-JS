@@ -94,6 +94,19 @@ const tiny_test = async function () {
 
     });
 
+    // Array
+    await forPromise({
+        data: [1, 2, 3]
+    }, function (item, fn) {
+
+        // Test Value
+        console.log(`Array with Force Break: ${item}`);
+
+        // Force Complete
+        fn(true);
+
+    });
+
     // Complete
     console.log('Complete!');
     return;
