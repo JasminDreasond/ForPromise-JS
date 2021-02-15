@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (firstLine = 'var forPromise = ') {
 
     // For Promise
     let forPromise = require('./index').toString()
@@ -17,6 +17,6 @@ module.exports = function () {
         );
 
     // Send Data
-    return `var forPromise = ${forPromise};`;
+    return `${firstLine}${forPromise};`;
 
 };
