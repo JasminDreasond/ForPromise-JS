@@ -1,7 +1,7 @@
 //  Super Validator
-const superValidator = require('./files/superValidator');
-const validateTotal = require('./files/validateTotal');
-const objType = require('./files/objType');
+const superValidator = require('./files/superValidator.js');
+const validateTotal = require('./files/validateTotal.js');
+const objType = require('./files/objType.js');
 
 module.exports = function (obj, callback) {
     return new Promise(function (resolve, reject) {

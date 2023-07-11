@@ -1,4 +1,4 @@
-const objType = require('./objType.js');
+const objType = require('./objType');
 
 module.exports = function (obj) {
 

@@ -1,5 +1,5 @@
-const countObj = require('./countObj.js');
-const objType = require('./objType.js');
+const countObj = require('./countObj');
+const objType = require('./objType');
 
 module.exports = function (obj) {
 
