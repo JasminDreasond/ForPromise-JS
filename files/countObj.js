@@ -1,7 +1,6 @@
-module.exports = function (obj) {
+const objType = require('./objType');
 
-    // Detect Object Module
-    const objType = require('./objType');
+module.exports = function (obj) {
 
     // Is Array
     if (Array.isArray(obj)) {

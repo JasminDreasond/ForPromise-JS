@@ -1,7 +1,8 @@
+const objType = require('./objType');
+
 module.exports = function (obj) {
 
     // Start Module
-    const objType = require('./objType');
     const result = { confirmed: false };
 
     // Normal

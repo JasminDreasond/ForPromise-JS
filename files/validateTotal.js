@@ -1,8 +1,7 @@
-module.exports = function (obj) {
+const countObj = require('./countObj');
+const objType = require('./objType');
 
-    // Start Module
-    const countObj = require('./countObj');
-    const objType = require('./objType');
+module.exports = function (obj) {
 
     // Get Total
     let newTotal = 0;
