@@ -1,6 +1,6 @@
-const objType = require('./objType.js');
+import objType from './objType';
 
-module.exports = function (obj) {
+export default function superValidator (obj) {
 
     // Start Module
     const result = { confirmed: false };

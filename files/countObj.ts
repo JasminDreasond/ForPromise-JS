@@ -1,6 +1,6 @@
-const objType = require('./objType');
+import objType from './objType';
 
-module.exports = function (obj) {
+export default function countObj (obj) {
 
     // Is Array
     if (Array.isArray(obj)) {

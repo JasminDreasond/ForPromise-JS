@@ -1,7 +1,7 @@
-const countObj = require('./countObj');
-const objType = require('./objType');
+import countObj from './countObj';
+import objType from './objType';
 
-module.exports = function (obj) {
+export default function validateTotal (obj) {
 
     // Get Total
     let newTotal = 0;
