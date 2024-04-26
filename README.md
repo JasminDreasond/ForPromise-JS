@@ -27,7 +27,7 @@ import forPromise from 'for-promise';
 const dataCount = 10;
 
 // Start For Script
-await forPromise({ data: dataCount }, function (index, fn) {
+await forPromise({ data: dataCount }, (index, fn) => {
 
     // Show Index
     console.log(`The index value is '${index}'.`);
@@ -50,7 +50,7 @@ import fs from 'fs';
 const data = [1,2,3,4,5,6,7,8,9,10];
 
 // Start For Script
-await forPromise({ data: data }, function (index, fn, fn_error) {
+await forPromise({ data: data }, (index, fn, fn_error) => {
 
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
@@ -86,7 +86,7 @@ const data = [1,2,3,4,5,6,7,8,9,10];
 const data2 = [11,12,13,14,15,16,17,18,19,20];
 
 // Start For Script
-await forPromise({ data: data }, function (index, fn, fn_error, extra) {
+await forPromise({ data: data }, (index, fn, fn_error, extra) => {
 
     // Show Index
     console.log(`The index value '${index}' is '${data[index]}'.`);
@@ -95,7 +95,7 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
     const extraForAwait = extra({ data: data2 });
 
     // Execute the extra For Script
-    extraForAwait.run(function (index2, fn, fn_error) {
+    extraForAwait.run((index2, fn, fn_error) => {
 
         // Show Index
         console.log(`The index value '${index2}' is '${data2[index2]}'.`);
@@ -139,11 +139,11 @@ await forPromise({
     while: whileData,
 
     // The Value will be checked here
-    checker: function () {
+    checker: () => {
         return (whileData.count < 3);
     }
 
-}, function (fn, fn_error) {
+}, (fn, fn_error) => {
 
 // Test Value
 console.log(`Do: ${whileData.count}`);
@@ -165,7 +165,7 @@ import forPromise from 'for-promise';
 // Start the Promise
 await forPromise({
     data: [1, 2, 3]
-}, function (item, fn) {
+}, (item, fn) => {
 
     // Test Value
     console.log(`Array with Force Break: ${item}`);
@@ -187,7 +187,7 @@ import path from 'path';
 // Start the Promise
 await forPromise({
     data: [1, 2, 3]
-}, function (item, fn, fn_error) {
+}, (item, fn, fn_error) => {
 
     // Wait Script
     fs.readdir(path.join(__dirname, './folder'), (err, files) => {
