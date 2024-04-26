@@ -1,8 +1,9 @@
 {
   "name": "for-promise",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Execute all promises inside a \"for\" script.",
   "scripts": {},
+  "type": "module",
   "main": "index.js",
   "module": "index.mjs",
   "repository": {
