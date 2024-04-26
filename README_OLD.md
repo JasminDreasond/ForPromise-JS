@@ -21,7 +21,7 @@ Instead of waiting for "For" to execute several promises and callbacks at a time
 ### Execute a "For Script" with "Promise" in a number variable.
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // The Data
 const dataCount = 10;
@@ -41,10 +41,10 @@ await forPromise({ data: dataCount }, function (index, fn) {
 ### Execute a "For Script" with "Promise" in a object or array.
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // Module Example
-import fs from 'fs';
+const fs = require('fs');
 
 // The Data
 const data = [1,2,3,4,5,6,7,8,9,10];
@@ -76,10 +76,10 @@ await forPromise({ data: data }, function (index, fn, fn_error) {
 ### Execute a "For Script" with extra "For Scripts" functions.
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // Module Example
-import fs from 'fs';
+const fs = require('fs');
 
 // The Data
 const data = [1,2,3,4,5,6,7,8,9,10];
@@ -126,7 +126,7 @@ await forPromise({ data: data }, function (index, fn, fn_error, extra) {
 ### Execute a "Do While Script".
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // Prepare Do Whilte Data
 const whileData = { count: 0 };
@@ -160,7 +160,7 @@ fn();
 ### Execute a "For Script" with "Break FN". It is the same result of adding a "break" to a "For Script".
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // Start the Promise
 await forPromise({
@@ -178,11 +178,11 @@ await forPromise({
 
 ```js
 // For Promise
-import forPromise from 'for-promise';
+const forPromise = require('for-promise');
 
 // Module Example
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 // Start the Promise
 await forPromise({
