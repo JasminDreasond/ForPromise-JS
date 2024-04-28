@@ -21,6 +21,12 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/test/index.mjs"
+        },
+        {
+            "command": "npx tsx ./test/index.ts",
+            "name": "Launch Program ts",
+            "request": "launch",
+            "type": "node-terminal"
         }
     ]
 }
