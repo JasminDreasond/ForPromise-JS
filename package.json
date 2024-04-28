@@ -1,19 +1,12 @@
 {
   "name": "for-promise",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Execute all promises inside a \"for\" script.",
   "scripts": {},
   "type": "module",
   "main": "index.js",
   "module": "index.mjs",
   "types": "index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "require": "./index.js"
-    },
-    "./package.json": "./package.json"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JasminDreasond/ForPromise-JS.git"
