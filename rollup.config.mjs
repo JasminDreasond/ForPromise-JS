@@ -48,9 +48,9 @@ export default [
   {
     input: 'src/index.mjs',
     output: {
-      file: 'dist/TinyAiApi.min.js',
+      file: 'dist/forPromise.min.js',
       format: 'iife',
-      name: 'TinyAiApi',
+      name: 'forPromise',
       sourcemap: false,
       globals: {
         'lodash': '_',
