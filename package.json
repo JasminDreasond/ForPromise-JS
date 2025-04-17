@@ -1,6 +1,6 @@
 {
   "name": "for-promise",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Execute all promises inside a \"for\" script.",
   "scripts": {
     "test": "npm run test:mjs && npm run test:cjs && npm run test:js",
@@ -19,7 +19,7 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "ethereum": "jasmindreasond.x",
   "exports": {
     ".": {
