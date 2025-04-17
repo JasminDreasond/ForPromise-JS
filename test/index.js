@@ -1,10 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'node:url';
-
-import forPromise from '../dist/index.mjs';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import forPromise from '../dist';
 
 const tiny_test = async function () {
   // The Test
