@@ -4,6 +4,17 @@ import { objType } from './utils/lib.mjs';
 
 export default function forPromise(obj, callback) {
   return new Promise(function (resolve, reject) {
+    try {
+      if (typeof obj !== 'object' || obj === null) {
+        throw new Error('Invalid object provided.');
+      }
+      if (typeof callback !== 'function') {
+        throw new Error('Callback must be a function.');
+      }
+    } catch (err) {
+      return reject(err);
+    }
+
     // Validate Obj
     const objValidated = superValidator(obj);
 
