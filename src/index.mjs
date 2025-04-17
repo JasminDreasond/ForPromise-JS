@@ -51,12 +51,12 @@ import { objType } from './utils/lib.mjs';
  *   console.log(item);
  *   result(); // move to next
  * }).then(res => console.log(res));
- * 
+ *
  * @example
  * const input = {
  *   data: [1, 2, 3],
  * };
- * 
+ *
  * forPromise(input, (item, result, error, extraFn) => {
  *   if (item === 2) return result({ break: true });
  *   result();
@@ -160,42 +160,43 @@ export default function forPromise(obj, callback) {
                 item_to_edit.count > 0))
           ) {
             // Normal Result
-            if (!isExtra)
+            if (!isExtra) {
               if (!extra.enabled) resolve(items);
-              // Extra Result
-              else {
-                // Check Extra Exist
-                if (extra.list[extraIndex]) {
-                  // Complete Check
-                  extra.list[extraIndex].complete = true;
+            }
+            // Extra Result
+            else {
+              // Check Extra Exist
+              if (extra.list[extraIndex]) {
+                // Complete Check
+                extra.list[extraIndex].complete = true;
 
-                  // Check List
-                  let confirmation_checked = true;
+                // Check List
+                let confirmation_checked = true;
 
-                  // Detect Progress
-                  for (const item in extra.list) {
-                    if (!extra.list[item].complete) {
-                      confirmation_checked = false;
-                      break;
-                    }
-                  }
-
-                  // Complete
-                  if (confirmation_checked) {
-                    // Add Extra Info
-                    items.extra = extra.list;
-
-                    // Resolve
-                    resolve(items);
+                // Detect Progress
+                for (const item in extra.list) {
+                  if (!extra.list[item].complete) {
+                    confirmation_checked = false;
+                    break;
                   }
                 }
 
-                // Nope
-                else {
-                  items.error = true;
-                  reject(new Error('forAwait Extra Index not found.'));
+                // Complete
+                if (confirmation_checked) {
+                  // Add Extra Info
+                  items.extra = extra.list;
+
+                  // Resolve
+                  resolve(items);
                 }
               }
+
+              // Nope
+              else {
+                items.error = true;
+                reject(new Error(`forAwait Extra Index ${extraIndex} not found.`));
+              }
+            }
           }
         }
       };
@@ -364,9 +365,7 @@ export default function forPromise(obj, callback) {
               // Run Extra
               run: function (callback) {
                 // Run For
-                if (!items.error && !items.forceBreak) {
-                  runFor(callback, true, index, new_extra);
-                }
+                if (!items.error && !items.forceBreak) runFor(callback, true, index, new_extra);
               },
             };
           }

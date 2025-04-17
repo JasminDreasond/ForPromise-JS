@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 
-import forPromise from '../index.mjs';
+import forPromise from '../src/index.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -83,10 +83,10 @@ const tiny_test = async function () {
     const extraForAwait = extra({ data: data2 });
 
     // Execute the extra For Script
-    extraForAwait.run(function (index2, fn) {
+    extraForAwait.run(function (index2, fn2) {
       // Show Index
       console.log(`For (Extra): '${index2}'`);
-      fn();
+      fn2();
     });
 
     console.groupEnd();
@@ -115,7 +115,7 @@ const tiny_test = async function () {
     },
     function (item, fn, fn_error) {
       // Wait Script
-      fs.readdir(path.join(__dirname, '../files'), (err, files) => {
+      fs.readdir(path.join(__dirname, '../src'), (err, files) => {
         // Success! The "fn()" will say that the execution of this script has ended.
         if (!err) {
           console.log(`Force Break used to read this data: ${item}`);
@@ -128,9 +128,6 @@ const tiny_test = async function () {
           fn_error(err);
         }
       });
-
-      // Force Complete
-      fn({ break: true, dontSendResult: true });
     },
   );
 
