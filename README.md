@@ -12,60 +12,74 @@
 </div>
 
 # ForPromise-JS
-Execute all promises inside a "for" script. This module will help you to execute all the Promise methods instantly inside a single promise.
 
-Instead of waiting for "For" to execute several promises and callbacks at a time, with this module they will all be executed instantly at one Promise.
+**ForPromise-JS** is a lightweight utility for running asynchronous scripts in sequence — like a `for`, `forEach`, or `while` loop — but fully promise-based and with complete control over each iteration.
 
-## Simple Example
+This module helps you run multiple asynchronous operations (Promises or callbacks) **in an ordered, controlled flow** within a single `await` call.
 
-### Execute a "For Script" with "Promise" in a number variable.
+Instead of juggling multiple `Promise` instances inside regular loop structures (which can get messy or execute out of order), **ForPromise-JS** executes them sequentially, instantly, and cleanly — all inside one master `Promise`.
+
+---
+
+### ✨ Key Features:
+- Works with arrays, objects, numbers, and custom `while` conditions.
+- Supports `fn()` and `fn_error()` callbacks.
+- Allows `break`, `forceResult`, `dontSendResult`, and even nested async loops.
+- Simple `await`-based usage — no need for external `async/await` handling inside the loop.
+
+> Perfect for replacing async logic inside `for`/`forEach`/`while` scripts — but safer and smarter.
+
+
+## 📘 Usage Examples
+
+### 🔁 Basic Loop: Number as Loop Count
+Execute a loop a fixed number of times (like a traditional `for` loop).
+
 ```js
-// For Promise
+// Import the module
 import forPromise from 'for-promise';
 
-// The Data
+// Loop will run 10 times
 const dataCount = 10;
 
-// Start For Script
-await forPromise({ data: dataCount }, (index, fn) => {
-
-    // Show Index
+// Run the loop
+await forPromise({ data: dataCount }, (index, result) => {
+    
+    // Display the current index
     console.log(`The index value is '${index}'.`);
 
-    // The "fn()" will say that the execution of this script has ended.
-    fn();
+    // Call result() to mark this iteration as complete
+    result();
 
 });
 ```
 
-### Execute a "For Script" with "Promise" in a object or array.
-```js
-// For Promise
-import forPromise from 'for-promise';
+### 🧾 Looping Through Arrays or Objects
+You can also loop through an array or object and handle asynchronous logic inside.
 
-// Module Example
+```js
+// Import the module
+import forPromise from 'for-promise';
 import fs from 'fs';
 
-// The Data
-const data = [1,2,3,4,5,6,7,8,9,10];
+// Sample array
+const data = [1, 2, 3, 4, 5];
 
-// Start For Script
-await forPromise({ data: data }, (index, fn, fn_error) => {
+// Loop through each index
+await forPromise({ data }, (index, result, error) => {
 
-    // Show Index
-    console.log(`The index value '${index}' is '${data[index]}'.`);
+    // Print current index and value
+    console.log(`The index '${index}' has value '${data[index]}'.`);
 
-    // Wait Script
-    fs.readdir(testFolder, (err, files) => {
-        
-        // Success! The "fn()" will say that the execution of this script has ended. 
-        if(!err) {
-            fn();
-        }
+    // Async operation: reading a directory
+    fs.readdir('/some/folder/path', (err, files) => {
 
-        // Error! The execution of the promise will be interrupted here!
-        else {
-            fn_error(err);
+        if (!err) {
+            // Success: mark the iteration as completed
+            result();
+        } else {
+            // Error: interrupt the loop and reject the promise
+            error(err);
         }
 
     });
@@ -73,142 +87,161 @@ await forPromise({ data: data }, (index, fn, fn_error) => {
 });
 ```
 
-### Execute a "For Script" with extra "For Scripts" functions.
-```js
-// For Promise
-import forPromise from 'for-promise';
+### ➕ Adding Extra Loops Dynamically
+Use `extra()` to add another loop from inside your main loop — perfect for nested async iterations!
 
-// Module Example
+```js
+// Import the module
+import forPromise from 'for-promise';
 import fs from 'fs';
 
-// The Data
-const data = [1,2,3,4,5,6,7,8,9,10];
-const data2 = [11,12,13,14,15,16,17,18,19,20];
+// First dataset
+const data1 = [1, 2, 3];
+const data2 = [4, 5, 6];
 
-// Start For Script
-await forPromise({ data: data }, (index, fn, fn_error, extra) => {
+// Outer loop
+await forPromise({ data: data1 }, (index, result, error, extra) => {
 
-    // Show Index
-    console.log(`The index value '${index}' is '${data[index]}'.`);
+    console.log(`Outer index '${index}' has value '${data1[index]}'.`);
 
-    // Add Extra For Script for the "data2"
-    const extraForAwait = extra({ data: data2 });
+    // Add a nested loop dynamically
+    const extraLoop = extra({ data: data2 });
 
-    // Execute the extra For Script
-    extraForAwait.run((index2, fn, fn_error) => {
+    // Run the nested loop
+    extraLoop.run((index2, result2, error2) => {
+        console.log(`  Inner index '${index2}' has value '${data2[index2]}'.`);
 
-        // Show Index
-        console.log(`The index value '${index2}' is '${data2[index2]}'.`);
-
-        // Wait Script
-        fs.readdir(testFolder, (err, files) => {
-        
-            // Success! The "fn()" will say that the execution of this script has ended. 
-            if(!err) {
-                fn();
-            }
-
-            // Error! The execution of the promise will be interrupted here!
-            else {
-                fn_error(err);
-            }
-
+        fs.readdir('/another/folder', (err, files) => {
+            if (!err) result2();
+            else error2(err);
         });
-
     });
 
-    // Complete Here
-    fn();
+    // Continue outer loop
+    result();
 
 });
 ```
 
-### Execute a "Do While Script".
+### 🔁 Execute a "Do While" Loop
+Use the `type: 'while'` option to run a loop that repeats while a condition remains true — similar to a classic `do...while` structure.
+
 ```js
-// For Promise
+// Import the module
 import forPromise from 'for-promise';
 
-// Prepare Do Whilte Data
+// Data object to track the condition
 const whileData = { count: 0 };
 
-// Start the Promise
+// Run the "do while" loop
 await forPromise({
-    
-    // Prepare Settings
+
+    // Set the loop type
     type: 'while',
     while: whileData,
 
-    // The Value will be checked here
+    // Condition checker (must return true or false)
     checker: () => {
         return (whileData.count < 3);
     }
 
-}, (fn, fn_error) => {
+}, (done, error) => {
 
-// Test Value
-console.log(`Do: ${whileData.count}`);
+    // Loop body: will execute at least once
+    console.log(`Do: ${whileData.count}`);
 
-// Count the Value
-whileData.count++;
+    // Update value
+    whileData.count++;
 
-// Complete
-fn();
+    // Mark iteration as complete
+    done();
 
 });
 ```
 
-### Execute a "For Script" with "Break FN". It is the same result of adding a "break" to a "For Script".
+> 💡 This script will print:
+> ```
+> Do: 0  
+> Do: 1  
+> Do: 2  
+> ```
+
+### 🛑 Execute a "For Script" with `Break FN`
+Use `fn(true)` inside the loop callback to **force a break**, just like a `break` statement in traditional `for` loops.
+
 ```js
-// For Promise
+// Import the module
 import forPromise from 'for-promise';
 
-// Start the Promise
+// Start the loop
 await forPromise({
     data: [1, 2, 3]
-}, (item, fn) => {
+}, (item, done) => {
 
-    // Test Value
+    // Show the current item
     console.log(`Array with Force Break: ${item}`);
 
-    // Break FN
-    fn(true);
+    // Break the loop immediately
+    done(true);
 
 });
 ```
 
+> 💡 This will only execute once and stop the entire loop.
+> ```
+> Array with Force Break: 1
+> ```
+
+You can use this when you need to **exit early** based on a certain condition, just like `break` in native loops.
+
+### 🧠 Execute a "For Script" with `forceResult`, `break`, and `dontSendResult`
+Use the `fn()` function with advanced options to control how the loop behaves and what result it returns.
+
 ```js
-// For Promise
+// Import the module
 import forPromise from 'for-promise';
 
-// Module Example
+// Example: Use filesystem
 import fs from 'fs';
 import path from 'path';
 
-// Start the Promise
+// Start the loop
 await forPromise({
     data: [1, 2, 3]
-}, (item, fn, fn_error) => {
+}, (item, done, fail) => {
 
-    // Wait Script
+    // Async example: read a folder
     fs.readdir(path.join(__dirname, './folder'), (err, files) => {
 
-        // Success! The "fn()" will say that the execution of this script has ended. 
         if (!err) {
             console.log(`Force Break used to read this data: ${item}`);
             console.log(files);
-            fn({ forceResult: true });
+
+            // ✅ Mark this result as the final result and end all execution
+            done({ forceResult: true });
+        } else {
+            // ❌ Stop execution and return the error
+            fail(err);
         }
 
-        // Error! The execution of the promise will be interrupted here!
-        else {
-            fn_error(err);
-        }
+    });
 
-     });
-
-    // Force Complete
-    fn({ break: true, dontSendResult: true });
+    // 🛑 Stop further execution without returning a result
+    done({ break: true, dontSendResult: true });
 
 });
-
 ```
+
+---
+
+### 🔍 Behavior Summary
+
+- `forceResult: true`: Immediately ends the loop and **returns this value** as the final result.
+- `break: true`: Stops the loop like a normal `break`.
+- `dontSendResult: true`: Suppresses the current iteration result from being stored or returned.
+
+> 💡 You can combine `forceResult`, `break`, and `dontSendResult` as needed to fully control the loop's execution and return behavior.
+
+---
+
+> 🧠 This documentation was written with the help of AI assistance (ChatGPT by OpenAI) to ensure clarity, structure, and language accuracy.
