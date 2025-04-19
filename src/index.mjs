@@ -1,6 +1,5 @@
 //  Libs
-import { objType } from 'tiny-essentials';
-import { superValidator, validateTotal } from './utils/essentials.mjs';
+import { objType, superValidator, validateTotal } from './utils/essentials.mjs';
 
 /**
  * Runs an asynchronous iterative operation with advanced control over flow, breaks, and nested (extra) iterations.
