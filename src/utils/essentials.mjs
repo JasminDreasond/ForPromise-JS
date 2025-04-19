@@ -1,4 +1,4 @@
-import { objType, countObj } from './lib.mjs';
+import { countObj, objType } from 'tiny-essentials';
 
 /**
  * Validates the total value based on the type of the input.
