@@ -43,7 +43,7 @@ import { objType, superValidator, validateTotal } from './utils/essentials.mjs';
  *
  * @returns {Promise<ForPromiseStatus>}
  */
-export default async function forPromise(obj, callback) {
+export default function forPromise(obj, callback) {
   return new Promise((resolve, reject) => {
     try {
       if (typeof obj !== 'object' || obj === null) throw new Error('Invalid object provided.');
