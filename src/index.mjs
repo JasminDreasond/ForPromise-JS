@@ -2,67 +2,49 @@
 import { objType, superValidator, validateTotal } from './utils/essentials.mjs';
 
 /**
+ * @typedef {Object} forPromiseIteration
+ * @property {Record<string, any>|any[]|number} data - The main data source. Can be an array-like object, number (as count), or object for keys.
+ * @property {string} [type] - Optional type of iteration. Currently supports "while" for while-like looping.
+ * @property {*} [while] - While validator
+ * @property {Function} [checker] - Used only with type: "while" to determine loop continuation.
+ */
+
+/**
+ * Extra control object.
+ *
+ * @typedef {Object} forPromiseExtra
+ * @property {boolean} complete - Whether the extra item has completed processing.
+ * @property {boolean} forceBreak - Whether the extra item has triggered a forced break.
+ * @property {number} count - Number of processed items.
+ * @property {number|null} total - Total expected items, or null if not set.
+ * @property {Array<any>} items - List of items processed.
+ * @property {string} [type] - Optional type of processing (e.g., 'while').
+ * @property {boolean} [error] - Is error.
+ */
+
+/**
+ * @typedef {{
+ *  error: boolean;
+ *  forceBreak: boolean;
+ *  type?: string;
+ *  extra?: Array<forPromiseExtra>;
+ *  count: number;
+ *  total: number|null;
+ *  items: Array<any>
+ * }} ForPromiseStatus
+ */
+
+/**
  * Runs an asynchronous iterative operation with advanced control over flow, breaks, and nested (extra) iterations.
  * The function accepts a data object and a callback, and returns a Promise that resolves with iteration results.
  *
- * @function
- * @param {Object} obj - The data object used to control the iteration process. It must follow a specific structure.
- * @param {Object|number} obj.data - The main data source. Can be an array-like object, number (as count), or object for keys.
- * @param {string} [obj.type] - Optional type of iteration. Currently supports `"while"` for while-like looping.
- * @param {Function} [obj.checker] - Used only with `type: "while"` to determine loop continuation.
+ * @param {forPromiseIteration} obj - The data object used to control the iteration process. It must follow a specific structure.
  * @param {Function} callback - A function that will be called on each iteration step.
- * The callback receives the following parameters:
  *
- * @callback callback
- * @param {*} currentItem - The current item or index being iterated.
- * @param {Function} result - Function to call when iteration step finishes. Accepts an optional forceBreak configuration.
- * @param {Function} error - Function to call if an error is encountered.
- * @param {Function} extra - Function to call to register additional (nested) iterations.
- *
- * @returns {Promise<Object>} Resolves with an object containing the result of the iteration process.
- *
- * The returned object structure is:
- * @typedef {Object} IterationResult
- * @property {boolean} error - Whether an error occurred.
- * @property {boolean} forceBreak - Whether the iteration was forcefully broken.
- * @property {number} count - How many steps were executed.
- * @property {number} total - Total expected steps.
- * @property {Array} items - The collected results from each callback.
- * @property {Array} [extra] - If extras were used, contains an array of extra iteration results with the same structure.
- *
- * The `result()` function (inside the callback) accepts an optional argument:
- * @param {boolean|Object} [forceBreak=false] - If true, breaks the iteration early.
- * If an object is passed, it can contain:
- *   @property {boolean} [break=false] - Whether to break the loop.
- *   @property {boolean} [dontSendResult=false] - Prevents auto-resolve after completion.
- *   @property {boolean} [forceResult=false] - Forces result resolution regardless of loop status.
- *
- * The `extra()` function (inside the callback) is used to spawn additional loops within the current loop.
- * It must be passed a valid object like the main one, and returns:
- * @returns {Object} An object with a `run(callback)` method to run the extra loop.
- *
- * @throws {Error} Throws if invalid input types are provided or during execution.
- *
- * @example
- * const obj = { data: [1, 2, 3] };
- *
- * forPromise(obj, (item, result, error, extra) => {
- *   console.log(item);
- *   result(); // move to next
- * }).then(res => console.log(res));
- *
- * @example
- * const input = {
- *   data: [1, 2, 3],
- * };
- *
- * forPromise(input, (item, result, error, extraFn) => {
- *   if (item === 2) return result({ break: true });
- *   result();
- * }).then(console.log).catch(console.error);
+ * @returns {Promise<ForPromiseStatus>}
  */
-export default function forPromise(obj, callback) {
-  return new Promise(function (resolve, reject) {
+export default async function forPromise(obj, callback) {
+  return new Promise((resolve, reject) => {
     try {
       if (typeof obj !== 'object' || obj === null) throw new Error('Invalid object provided.');
       if (typeof callback !== 'function') throw new Error('Callback must be a function.');
@@ -75,7 +57,7 @@ export default function forPromise(obj, callback) {
 
     // Validator
     if (objValidated.confirmed) {
-      // Prepare Count
+      /** @type {ForPromiseStatus} */
       let items = {
         error: false,
         forceBreak: false,
@@ -85,13 +67,21 @@ export default function forPromise(obj, callback) {
       };
 
       // Error Result
+      /** @param {Error} err */
       const error_result = function (err) {
         // Send Error Reject
         items.error = true;
         reject(err);
       };
 
-      // Prepare Result
+      /**
+       * Prepare Result
+       *
+       * @param {boolean} isExtra
+       * @param {number} extraIndex
+       * @param {*} item
+       * @param {boolean|{ break: boolean; dontSendResult: boolean; forceResult: boolean;}} [forceBreak=false]
+       */
       const result = function (isExtra, extraIndex, item, forceBreak = false) {
         // Prepare Edit
         let item_to_edit = null;
@@ -103,8 +93,22 @@ export default function forPromise(obj, callback) {
           item_to_edit = extra.list[extraIndex];
         }
 
+        if (typeof item_to_edit.total !== 'number')
+          return reject(new Error('Invalid "item_to_edit.total" value: null or undefined.'));
+
         // Force Break
-        const forceBreakResult = { isObject: objType(forceBreak, 'object') };
+        /**
+         * @typedef {Object} ForceBreakResult
+         * @property {boolean} isObject
+         * @property {boolean} [allowed]
+         * @property {boolean} [dontSendResult]
+         * @property {boolean} [forceResult]
+         */
+
+        /** @type {ForceBreakResult} */
+        const forceBreakResult = {
+          isObject: /** @type {boolean} */ (objType(forceBreak, 'object')),
+        };
 
         // Is Boolean
         if (!forceBreakResult.isObject) {
@@ -118,7 +122,7 @@ export default function forPromise(obj, callback) {
         }
 
         // Object
-        else {
+        else if (typeof forceBreak === 'object') {
           if (!item_to_edit.forceBreak)
             forceBreakResult.allowed = typeof forceBreak.break === 'boolean' && forceBreak.break;
           else forceBreakResult.allowed = false;
@@ -200,23 +204,32 @@ export default function forPromise(obj, callback) {
         }
       };
 
-      // Run For
-      const runFor = function (callback, isExtra = false, index = null, new_extra = null) {
-        // Prepare the Item
+      /**
+       * @param {Function} callback
+       * @param {boolean} [isExtra=false]
+       * @param {number} [index=-1]
+       * @param {{data: any, type?: string, checker?: Function}|null} [new_extra=null]
+       * @returns {void}
+       */
+      const runFor = function (callback, isExtra = false, index = -1, new_extra = null) {
         let the_item = null;
 
         // Normal
         if (!isExtra) the_item = obj;
-        else the_item = new_extra;
+        else if (typeof new_extra === 'object') the_item = new_extra;
 
-        // Run Script
+        /**
+         * @param {number|string|null} [item=null]
+         * @returns {boolean}
+         */
         const runFor_script = function (item = null) {
           // No Error
           if (!items.error && !items.forceBreak) {
             // Try
             try {
               // Result Function
-              const result_data = (forceBreak) => result(isExtra, index, item, forceBreak);
+              const result_data = /**  @param {boolean} forceBreak */ (forceBreak) =>
+                result(isExtra, index, item, forceBreak);
 
               // Exist Item
               if (item !== null) callback(item, result_data, error_result, extra.extra_function);
@@ -236,6 +249,8 @@ export default function forPromise(obj, callback) {
           // Error
           else return false;
         };
+
+        if (the_item === null) throw new Error('Invalid "the_item" value: null or undefined.');
 
         // Start the For
         if (typeof the_item.data !== 'number') {
@@ -258,8 +273,11 @@ export default function forPromise(obj, callback) {
           else {
             // Start a While
             if (the_item.type === 'while') {
-              // Prepare
+              /** @returns {object|void} */
               const custom_do = function () {
+                if (typeof the_item.checker !== 'function')
+                  throw new Error('Invalid "checker" function in "the_item".');
+
                 // Validate
                 if (the_item.checker()) {
                   // Prepare Edit
@@ -268,15 +286,22 @@ export default function forPromise(obj, callback) {
                   // Not Extra
                   if (!isExtra) {
                     item_to_edit = items;
-                  } else {
-                    item_to_edit = extra.list[index];
-                  }
+                  } else item_to_edit = extra.list[index];
+
+                  if (typeof item_to_edit.total !== 'number')
+                    throw new Error('Invalid "item_to_edit.total" value: null or undefined.');
 
                   // Add Total
                   item_to_edit.total++;
 
                   // Callback and Continue
                   callback(
+                    /**
+                     * Increments the item count and returns the result handler.
+                     *
+                     * @param {boolean} forceBreak - Whether to forcefully break the loop.
+                     * @returns {*} The result of the handler execution.
+                     */
                     function (forceBreak) {
                       item_to_edit.count++;
                       return result(isExtra, index, null, forceBreak);
@@ -325,7 +350,16 @@ export default function forPromise(obj, callback) {
       // Type
       if (objValidated.type) items.type = objValidated.type;
 
-      // Prepare Extra
+      /**
+       * Represents the extra handling structure.
+       *
+       * @typedef {Object} Extra
+       * @property {boolean} enabled - Whether extra processing is enabled.
+       * @property {Array<forPromiseExtra>} list - List of extra items.
+       * @property {function(forPromiseIteration): {run: function(Function): void}|null} extra_function - Function to add a new extra item.
+       */
+
+      /** @type {Extra} */
       const extra = {
         // Enabled
         enabled: false,
@@ -333,7 +367,10 @@ export default function forPromise(obj, callback) {
         // Extra List
         list: [],
 
-        // Functions
+        /**
+         * @param {forPromiseIteration} new_extra
+         * @returns {{run: function(Function): void}|null}
+         */
         extra_function: function (new_extra) {
           // Validate Obj
           const objValidated = superValidator(new_extra);

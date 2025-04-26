@@ -10,7 +10,7 @@ const tiny_test = async function () {
   // The Test
 
   // Number
-  await forPromise({ data: 3 }, function (item, fn) {
+  await forPromise({ data: 3 }, (item, fn) => {
     // Test Value
     console.log(`Number: ${item}`);
 
@@ -26,7 +26,7 @@ const tiny_test = async function () {
         test2: true,
       },
     },
-    function (item, fn) {
+    (item, fn) => {
       // Test Value
       console.log(`Object: ${item}`);
 
@@ -36,18 +36,13 @@ const tiny_test = async function () {
   );
 
   // Array
-  await forPromise(
-    {
-      data: [1, 2, 3],
-    },
-    function (item, fn) {
-      // Test Value
-      console.log(`Array: ${item}`);
+  await forPromise({ data: [1, 2, 3] }, (item, fn) => {
+    // Test Value
+    console.log(`Array: ${item}`);
 
-      // Complete
-      fn();
-    },
-  );
+    // Complete
+    fn();
+  });
 
   // While
   const whileData = { count: 0 };
@@ -59,7 +54,7 @@ const tiny_test = async function () {
         return whileData.count < 3;
       },
     },
-    function (fn) {
+    (fn) => {
       // Test Value
       console.log(`Do: ${whileData.count}`);
 
@@ -75,7 +70,7 @@ const tiny_test = async function () {
   const data2 = [1, 2];
 
   // Start For Script
-  await forPromise({ data: data }, function (index, fn, fn_error, extra) {
+  await forPromise({ data: data }, (index, fn, fn_error, extra) => {
     // Show Index
     console.group(`For (Normal): '${index}'`);
 
@@ -83,7 +78,7 @@ const tiny_test = async function () {
     const extraForAwait = extra({ data: data2 });
 
     // Execute the extra For Script
-    extraForAwait.run(function (index2, fn2) {
+    extraForAwait.run((index2, fn2) => {
       // Show Index
       console.log(`For (Extra): '${index2}'`);
       fn2();
@@ -96,40 +91,30 @@ const tiny_test = async function () {
   });
 
   // Force Break
-  await forPromise(
-    {
-      data: [1, 2, 3],
-    },
-    function (item, fn) {
-      // Test Value
-      console.log(`Array with Force Break: ${item}`);
+  await forPromise({ data: [1, 2, 3] }, (item, fn) => {
+    // Test Value
+    console.log(`Array with Force Break: ${item}`);
 
-      // Force Complete
-      fn(true);
-    },
-  );
+    // Force Complete
+    fn(true);
+  });
 
-  await forPromise(
-    {
-      data: [1, 2, 3],
-    },
-    function (item, fn, fn_error) {
-      // Wait Script
-      fs.readdir(path.join(__dirname, '../src'), (err, files) => {
-        // Success! The "fn()" will say that the execution of this script has ended.
-        if (!err) {
-          console.log(`Force Break used to read this data: ${item}`);
-          console.log(files);
-          fn({ forceResult: true });
-        }
+  await forPromise({ data: [1, 2, 3] }, (item, fn, fn_error) => {
+    // Wait Script
+    fs.readdir(path.join(__dirname, '../src'), (err, files) => {
+      // Success! The "fn()" will say that the execution of this script has ended.
+      if (!err) {
+        console.log(`Force Break used to read this data: ${item}`);
+        console.log(files);
+        fn({ forceResult: true });
+      }
 
-        // Error! The execution of the promise will be interrupted here!
-        else {
-          fn_error(err);
-        }
-      });
-    },
-  );
+      // Error! The execution of the promise will be interrupted here!
+      else {
+        fn_error(err);
+      }
+    });
+  });
 
   // Complete
   console.log('Complete!');

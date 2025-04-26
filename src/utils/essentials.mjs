@@ -30,7 +30,7 @@ export function validateTotal(obj) {
  * - Confirms validity if `obj.data` is an object, array, or number.
  * - Also confirms if `obj.type` is `'while'`, and `obj.while` is defined, and `obj.checker` is a function.
  *
- * @param {*} obj - The input object to validate.
+ * @param {import("../index.mjs").forPromiseIteration} obj - The input object to validate.
  * @returns {{ confirmed: boolean, type?: string }} - Returns an object with a `confirmed` boolean.
  *   If a "while" validation is detected, includes `type: 'while'`.
  *
@@ -41,6 +41,7 @@ export function validateTotal(obj) {
  */
 export function superValidator(obj) {
   // Start Module
+  /**  @type {{ confirmed: boolean, type?: string }} */
   const result = { confirmed: false };
   // Normal
   if (

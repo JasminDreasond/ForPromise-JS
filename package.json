@@ -1,6 +1,6 @@
 {
   "name": "for-promise",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Execute all promises inside a \"for\" script.",
   "scripts": {
     "test": "npm run test:mjs && npm run test:cjs && npm run test:js",
