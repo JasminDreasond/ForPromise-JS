@@ -1,5 +1,5 @@
 //  Libs
-import { objType, superValidator, validateTotal } from './utils/essentials.mjs';
+import { isJsonObject, superValidator, validateTotal } from './utils/essentials.mjs';
 
 /**
  * @typedef {Object} forPromiseIteration
@@ -107,7 +107,7 @@ export default function forPromise(obj, callback) {
 
         /** @type {ForceBreakResult} */
         const forceBreakResult = {
-          isObject: /** @type {boolean} */ (objType(forceBreak, 'object')),
+          isObject: /** @type {boolean} */ (isJsonObject(forceBreak)),
         };
 
         // Is Boolean

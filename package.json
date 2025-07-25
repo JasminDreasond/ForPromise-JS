@@ -1,7 +1,7 @@
 {
   "name": "for-promise",
-  "version": "2.0.4",
-  "description": "Execute all promises inside a \"for\" script.",
+  "version": "2.0.5",
+  "description": "A lightweight utility to run async loops with full control using Promises — like for, forEach, and while, but smarter.",
   "scripts": {
     "test": "npm run test:mjs && npm run test:cjs && npm run test:js",
     "test:js": "npx babel-node test/index.js",
@@ -32,10 +32,20 @@
   },
   "keywords": [
     "promise",
-    "for",
-    "array",
-    "object",
-    "for-promise"
+    "async",
+    "loop",
+    "forEach",
+    "sequential",
+    "asynchronous",
+    "await",
+    "iterator",
+    "javascript",
+    "for-promise",
+    "control-flow",
+    "while-loop",
+    "for-loop",
+    "nested-loop",
+    "async-loop"
   ],
   "author": "Yasmin Seidel (Jasmin Dreasond)",
   "license": "MIT",

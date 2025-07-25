@@ -18,7 +18,7 @@ export function validateTotal(obj) {
   // Get Total
   let newTotal = 0;
   if (typeof obj !== 'number') {
-    if (objType(obj, 'object') || Array.isArray(obj)) newTotal = countObj(obj);
+    if (isJsonObject(obj) || Array.isArray(obj)) newTotal = countObj(obj);
   } else newTotal = obj - 1;
   // Insert New Total
   return newTotal;
@@ -46,9 +46,9 @@ export function superValidator(obj) {
   // Normal
   if (
     // Main Type
-    objType(obj, 'object') &&
+    isJsonObject(obj) &&
     // Object
-    (objType(obj.data, 'object') ||
+    (isJsonObject(obj.data) ||
       // Array
       Array.isArray(obj.data) ||
       // Number
@@ -75,34 +75,25 @@ export function superValidator(obj) {
 }
 
 /**
- * Checks the type of a given object or returns its type as a string.
+ * Determines whether a given value is a pure JSON object (plain object).
  *
- * @param {*} obj - The object to check or identify.
- * @param {string} [type] - Optional. If provided, checks whether the object matches this type (e.g., "object", "array", "string").
- * @returns {boolean|string|null} - Returns `true` if the type matches, `false` if not,
- *                                   the type string if no type is provided, or `null` if the object is `undefined`.
+ * A pure object satisfies the following:
+ * - It is not null.
+ * - Its type is "object".
+ * - Its internal [[Class]] is "[object Object]".
+ * - It is not an instance of built-in types like Array, Date, Map, Set, etc.
  *
- * @example
- * objType([], 'array'); // true
- * objType({}, 'object'); // true
- * objType('hello'); // "string"
- * objType(undefined); // null
+ * This function is useful for strict data validation when you want to ensure
+ * a value is a clean JSON-compatible object, free of class instances or special types.
+ *
+ * @param {unknown} value - The value to test.
+ * @returns {value is Record<string | number | symbol, unknown>} Returns true if the value is a pure object.
  */
-export function objType(obj, type) {
-  // Is Defined
-  if (typeof obj !== 'undefined') {
-    // Get Obj Type
-    const result = Object.prototype.toString.call(obj).toLowerCase();
-    // Check Obj Type
-    if (typeof type === 'string') {
-      if (result === `[object ${type}]`) return true;
-      return false;
-    }
-    // Send Result
-    return result.substring(8, result.length - 1);
-  }
-  // Nope
-  return null;
+export function isJsonObject(value) {
+  if (value === null || typeof value !== 'object') return false;
+  if (Array.isArray(value)) return false;
+  if (Object.prototype.toString.call(value) !== '[object Object]') return false;
+  return true;
 }
 
 /**
@@ -120,7 +111,7 @@ export function countObj(obj) {
   // Is Array
   if (Array.isArray(obj)) return obj.length;
   // Object
-  if (objType(obj, 'object')) return Object.keys(obj).length;
+  if (isJsonObject(obj)) return Object.keys(obj).length;
   // Nothing
   return 0;
 }
